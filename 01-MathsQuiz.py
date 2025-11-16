@@ -102,3 +102,38 @@ class MathQuiz:  # OOP for Quiz
         exit_btn.pack(pady=10)
 
         self.quiz.config(bg=bgcolor, highlightthickness=0, bd=0)
+
+        def CheckAnswer(self):  # Validates player’s answer
+            Answer = self.box.get()
+        try:
+            Answer = int(Answer)
+        except:
+            messagebox.showwarning("Invalid", "Please enter a number.")
+            return
+
+        correctAns = self.num1 + self.num2 if self.Symb == '+' else self.num1 - self.num2
+
+        # If answer is Correct
+        if Answer == correctAns:
+            if self.attempts == 1:
+                self.score += 10
+            else:
+                self.score += 5
+
+            messagebox.showinfo("Correct", "Well done!")
+            self.no_of_questions += 1
+            self.attempts = 1
+            self.askQuestion()
+            return
+
+        # If answer is Wrong
+        else:
+            if self.attempts == 1:
+                self.attempts = 2
+                messagebox.showwarning("Nope", "Try again.")
+            else:
+                messagebox.showerror("Wrong", f"Correct answer was: {correctAns}")
+                self.no_of_questions += 1
+                self.attempts = 1
+
+            self.askQuestion()
