@@ -79,6 +79,11 @@ class MathQuiz:  # OOP for Quiz
         Qtracker = tk.Label(center_frame, text=f"Question {self.no_of_questions + 1} of 10",
                    bg=bgcolor, fg=text_color, font=("Arial", 20))
         Qtracker.pack(pady=(0, 10))
+        
+        #Label for Player Quiz Score
+        score_label = tk.Label(center_frame, text=f"Score: {self.score}",
+                           bg=bgcolor, fg=text_color, font=("Arial", 20))
+        score_label.pack(pady=(0, 10))
 
 
         question = tk.Label(self.quiz, text=f"{self.num1} {self.Symb} {self.num2} ="
