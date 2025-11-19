@@ -41,5 +41,25 @@ class Alexa:
         self.next_button = tk.Button(root, text="Tell me another joke", command=self.show_setup, width=25, height=2)
         self.quit_button = tk.Button(root, text="Quit", command=root.quit, width=25, height=2)
 
- 
-    root.mainloop()
+# Create and use the canvas window placement 
+        self.canvas.create_window(250, 100, window=self.setup_label)
+        self.canvas.create_window(250, 150, window=self.punchline_label)
+        self.canvas.create_window(250, 220, window=self.tell_button)
+        self.canvas.create_window(250, 270, window=self.punchline_button)
+        self.canvas.create_window(250, 320, window=self.next_button)
+        self.canvas.create_window(250, 370, window=self.quit_button)
+
+    def show_setup(self):
+        self.current_joke = random.choice(self.jokes)
+        self.setup_label.config(text=self.current_joke[0])
+        self.punchline_label.config(text="")
+
+    def show_punchline(self):
+        if self.current_joke:
+            self.punchline_label.config(text=self.current_joke[1])
+
+# Start Alexa the Joke Assistant 
+if __name__ == "__main__":
+    app = Alexa(root)
+
+root.mainloop()
