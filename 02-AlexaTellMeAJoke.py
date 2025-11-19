@@ -1,7 +1,7 @@
 import tkinter as tk
 from PIL import Image, ImageTk
 import random
-root = tk.Tk()
+
 # Load jokes from the .txt file
 def load_jokes(filename="randomJokes.txt"):
     jokes = []
@@ -13,7 +13,7 @@ def load_jokes(filename="randomJokes.txt"):
                     setup, punchline = line.split("?", 1)
                     jokes.append((setup + "?", punchline.strip()))
     except FileNotFoundError:
-        jokes = [("Sorry! No jokes have been found.", "Make sure that randomJokes.txt exists!")]
+        jokes = [("Sorry! No jokes found.", "Make sure randomJokes.txt exists!")]
     return jokes
 
 class Alexa:
@@ -23,25 +23,29 @@ class Alexa:
         self.jokes = load_jokes()
         self.current_joke = None
 
-        # Load the background image
-        bg_image = Image.open("background.png")
-        self.bg_photo = ImageTk.PhotoImage(bg_image)
+        # Load and store original background image
+        self.original_bg = Image.open("background.png")
+        self.bg_photo = ImageTk.PhotoImage(self.original_bg)
 
-        # Creates a canvas for background image
+        # Create canvas and draw background
         self.canvas = tk.Canvas(root, width=self.bg_photo.width(), height=self.bg_photo.height())
         self.canvas.pack(fill="both", expand=True)
-        self.canvas.create_image(0, 0, image=self.bg_photo, anchor="nw")
+        self.bg_image_id = self.canvas.create_image(0, 0, image=self.bg_photo, anchor="nw")
 
-        # Places the widgets on the canvas
+        # Bind resize event
+        self.root.bind("<Configure>", self.resize_background)
+
+        # Labels
         self.setup_label = tk.Label(root, text="", font=("Arial", 14), wraplength=400, justify="center", bg="white")
         self.punchline_label = tk.Label(root, text="", font=("Arial", 12), fg="blue", wraplength=400, justify="center", bg="white")
 
+        # Buttons
         self.tell_button = tk.Button(root, text="Alexa tell me a Joke", command=self.show_setup, width=25, height=2)
         self.punchline_button = tk.Button(root, text="Show Punchline", command=self.show_punchline, width=25, height=2)
         self.next_button = tk.Button(root, text="Tell me another joke", command=self.show_setup, width=25, height=2)
         self.quit_button = tk.Button(root, text="Quit", command=root.quit, width=25, height=2)
 
-# Create and use the canvas window placement 
+        # Place widgets on canvas
         self.canvas.create_window(250, 100, window=self.setup_label)
         self.canvas.create_window(250, 150, window=self.punchline_label)
         self.canvas.create_window(250, 220, window=self.tell_button)
@@ -58,8 +62,18 @@ class Alexa:
         if self.current_joke:
             self.punchline_label.config(text=self.current_joke[1])
 
-# Start Alexa the Joke Assistant 
-if __name__ == "__main__":
-    app = Alexa(root)
+    def resize_background(self, event):
+        if event.widget == self.root:
+            new_width = event.width
+            new_height = event.height
+            resized = self.original_bg.resize((new_width, new_height))
+            self.bg_photo = ImageTk.PhotoImage(resized)
+            self.canvas.config(width=new_width, height=new_height)
+            self.canvas.itemconfig(self.bg_image_id, image=self.bg_photo)
 
-root.mainloop()
+# Run the app
+if __name__ == "__main__":
+    root = tk.Tk()
+    root.geometry("500x450")  # Initial size
+    app = Alexa(root)
+    root.mainloop()
