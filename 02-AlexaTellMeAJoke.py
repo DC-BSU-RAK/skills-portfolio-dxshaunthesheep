@@ -12,34 +12,32 @@ def load_jokes(filename="randomJokes.txt"):
                 if "?" in line:
                     setup, punchline = line.split("?", 1)
                     jokes.append((setup + "?", punchline.strip()))
-    except FileNotFoundError:
+    except FileNotFoundError: 
         jokes = [("Sorry! No jokes found.", "Make sure randomJokes.txt exists!")]
-    return jokes
+    return jokes #Outputs message incase file was not found in directory. 
 
-class Alexa:
+class Alexa: #OOP class for Joke Assistant
     def __init__(self, root):
         self.root = root
         self.root.title("Jokes Assistant")
         self.jokes = load_jokes()
         self.current_joke = None
 
-        # Load and store original background image
+       #Loads the background image 
         self.original_bg = Image.open("background.png")
         self.bg_photo = ImageTk.PhotoImage(self.original_bg)
 
-        # Create canvas and draw background
+        # Creates a canvas for the background 
         self.canvas = tk.Canvas(root, width=self.bg_photo.width(), height=self.bg_photo.height())
         self.canvas.pack(fill="both", expand=True)
         self.bg_image_id = self.canvas.create_image(0, 0, image=self.bg_photo, anchor="nw")
 
-        # Bind resize event
-        self.root.bind("<Configure>", self.resize_background)
 
-        # Labels
+        # Labels to store the punchline button and the setup button 
         self.setup_label = tk.Label(root, text="", font=("Arial", 14), wraplength=400, justify="center", bg="white")
         self.punchline_label = tk.Label(root, text="", font=("Arial", 12), fg="blue", wraplength=400, justify="center", bg="white")
 
-        # Buttons
+        # Buttons for Alexa
         self.tell_button = tk.Button(root, text="Alexa tell me a Joke", command=self.show_setup, width=25, height=2)
         self.punchline_button = tk.Button(root, text="Show Punchline", command=self.show_punchline, width=25, height=2)
         self.next_button = tk.Button(root, text="Tell me another joke", command=self.show_setup, width=25, height=2)
@@ -71,9 +69,10 @@ class Alexa:
             self.canvas.config(width=new_width, height=new_height)
             self.canvas.itemconfig(self.bg_image_id, image=self.bg_photo)
 
-# Run the app
+# Start Alexa the Joke Assistant 
 if __name__ == "__main__":
     root = tk.Tk()
-    root.geometry("500x450")  # Initial size
+    root.resizable(False, False) #Makes the window not resiazble
+    root.geometry("500x450")  
     app = Alexa(root)
     root.mainloop()
