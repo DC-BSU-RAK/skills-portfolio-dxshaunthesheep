@@ -3,6 +3,8 @@ from tkinter import messagebox, simpledialog, filedialog
 
 root = tk.Tk()
 root.title("Student Marks Manager")
+menu_bar = tk.Menu(root)
+root.config(menu=menu_bar)
 
 def load_studentdata(filename="studentMarks.txt"):
     students=[]
@@ -117,5 +119,8 @@ btn_individual.grid(row=0, column=1, padx=5, pady=5)
 btn_highest.grid(row=0, column=2, padx=5, pady=5)
 btn_lowest.grid(row=0, column=3, padx=5, pady=5)
 
+output = tk.Text(root, width=60, height=25)
+output.pack(padx=10, pady=10)
 
+root.mainloop()
 
