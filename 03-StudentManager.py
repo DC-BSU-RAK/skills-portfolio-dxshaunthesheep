@@ -45,6 +45,14 @@ def calculate_grade(percentage):
         return "D"
     else:
         return "F"
+def format_student(student):
+    return (f"Name: {student['name']}\n"
+            f"ID: {student['id']}\n"
+            f"Coursework Total: {student['coursework']}\n"
+            f"Exam Mark: {student['exam']}\n"
+            f"Overall %: {student['percentage']:.2f}\n"
+            f"Grade: {student['grade']}\n")
+
 
 
 
