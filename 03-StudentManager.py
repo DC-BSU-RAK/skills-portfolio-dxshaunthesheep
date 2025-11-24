@@ -34,6 +34,17 @@ def load_studentdata(filename="studentMarks.txt"):
         messagebox.showerror("Error", f"File {filename} not found.")
         return [], 0
 
+def calculate_grade(percentage):
+    if percentage >= 70:
+        return "A"
+    elif percentage >= 60:
+        return "B"
+    elif percentage >= 50:
+        return "C"
+    elif percentage >= 40:
+        return "D"
+    else:
+        return "F"
 
 
 
