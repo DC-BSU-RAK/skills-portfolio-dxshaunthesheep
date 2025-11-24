@@ -53,6 +53,15 @@ def format_student(student):
             f"Overall %: {student['percentage']:.2f}\n"
             f"Grade: {student['grade']}\n")
 
+def view_all_students():
+    output.delete("1.0", tk.END)
+    total_percentage = 0
+    for student in students:
+        output.insert(tk.END, format_student(student) + "\n")
+        total_percentage += student["percentage"]
+    avg_percentage = total_percentage / len(students) if students else 0
+    output.insert(tk.END, f"\nSummary:\nNumber of students: {len(students)}\n"
+                          f"Average Percentage: {avg_percentage:.2f}%\n")
 
 
 
