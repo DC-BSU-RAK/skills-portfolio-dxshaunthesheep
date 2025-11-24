@@ -62,6 +62,20 @@ def view_all_students():
     avg_percentage = total_percentage / len(students) if students else 0
     output.insert(tk.END, f"\nSummary:\nNumber of students: {len(students)}\n"
                           f"Average Percentage: {avg_percentage:.2f}%\n")
+def view_individual_student():
+    query = simpledialog.askstring("Search Student", "Enter student name or ID:")
+    if not query:
+        return
+    output.delete("1.0", tk.END)
+    found = False
+    for student in students:
+        if query.lower() in student["name"].lower() or query == str(student["id"]):
+            output.insert(tk.END, format_student(student))
+            found = True
+            break
+    if not found:
+        messagebox.showinfo("Not Found", "Student record not found.")
+
 
 
 
