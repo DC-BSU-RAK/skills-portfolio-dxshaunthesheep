@@ -76,6 +76,17 @@ def view_individual_student():
     if not found:
         messagebox.showinfo("Not Found", "Student record not found.")
 
+def show_highest_student():
+    if not students:
+        return
+    highest = max(students, key=lambda s: s["overall"])
+    output.delete("1.0", tk.END)
+    output.insert(tk.END, "Highest Scoring Student:\n\n" + format_student(highest))
 
-
+def show_lowest_student():
+    if not students:
+        return
+    lowest = min(students, key=lambda s: s["overall"])
+    output.delete("1.0", tk.END)
+    output.insert(tk.END, "Lowest Scoring Student:\n\n" + format_student(lowest))
 
