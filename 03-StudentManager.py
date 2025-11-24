@@ -90,3 +90,32 @@ def show_lowest_student():
     output.delete("1.0", tk.END)
     output.insert(tk.END, "Lowest Scoring Student:\n\n" + format_student(lowest))
 
+    students, num_students = load_studentdata()
+
+    menu_bar = tk.Menu(root)
+root.config(menu=menu_bar)
+
+student_menu = tk.Menu(menu_bar, tearoff=0)
+menu_bar.add_cascade(label="Menu", menu=student_menu)
+student_menu.add_command(label="View All Records", command=view_all_students)
+student_menu.add_command(label="View Individual Record", command=view_individual_student)
+student_menu.add_command(label="Show Highest Score", command=show_highest_student)
+student_menu.add_command(label="Show Lowest Score", command=show_lowest_student)
+student_menu.add_separator()
+student_menu.add_command(label="Exit", command=root.quit)
+
+button_frame = tk.Frame(root)
+button_frame.pack(pady=10)
+
+btn_all = tk.Button(button_frame, text="View All Records", width=20, command=view_all_students)
+btn_individual = tk.Button(button_frame, text="View Individual Record", width=20, command=view_individual_student)
+btn_highest = tk.Button(button_frame, text="Highest Score", width=20, command=show_highest_student)
+btn_lowest = tk.Button(button_frame, text="Lowest Score", width=20, command=show_lowest_student)
+
+btn_all.grid(row=0, column=0, padx=5, pady=5)
+btn_individual.grid(row=0, column=1, padx=5, pady=5)
+btn_highest.grid(row=0, column=2, padx=5, pady=5)
+btn_lowest.grid(row=0, column=3, padx=5, pady=5)
+
+
+
